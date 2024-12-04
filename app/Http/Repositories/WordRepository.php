@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\Word;
+use Illuminate\Support\Facades\Cache;
 
 class WordRepository
 {
@@ -17,7 +18,9 @@ class WordRepository
 
     public function findByWord(string $word): ?Word
     {
-        return $this->model->query()->where('word', $word)->first();
+        return Cache::remember('word_' . $word, now()->addMonth(), function () use ($word) {
+            return $this->model->query()->where('word', $word)->first();
+        });
     }
 
 }

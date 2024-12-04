@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\Auth\AuthRequest;
-use App\Http\Services\AuthService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use App\Http\Services\AuthService;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\AuthRequest;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
-use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -26,7 +27,7 @@ class AuthController extends Controller
         } catch (UnauthorizedException) {
             return response()->json(['error' => 'User and/or password invalid'], Response::HTTP_UNAUTHORIZED);
         } catch (Exception $error) {
-            Log::error('LOGIN_ERROR', [
+            Log::error('SIGNIN_ERROR', [
                 'message' => $error->getMessage(),
                 'file' => $error->getFile(),
                 'line' => $error->getLine(),

@@ -16,3 +16,4 @@ yarn-error.log
 /.docker
 /.scribe
 /public/docs
+/public/vendor

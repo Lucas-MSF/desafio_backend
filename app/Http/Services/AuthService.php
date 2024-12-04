@@ -28,6 +28,4 @@ class AuthService
 
         return $token;
     }
-
-    public function logout(): array {}
 }
