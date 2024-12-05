@@ -3,12 +3,21 @@
 namespace App\Http\Repositories;
 
 use App\Models\Word;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class WordRepository
 {
-    public function __construct(private readonly Word $model)
+    public function __construct(private readonly Word $model) {}
+
+    public function getAll(?string $searchFilter, int $limit): LengthAwarePaginator
     {
+        $query = $this->model->query()
+            ->when(
+                $searchFilter,
+                fn($query) => $query->whereRaw('LOWER(word) LIKE ?', ['%' . strtolower($searchFilter) . '%'])
+            )->orderBy('word', 'asc');
+
+        return $query->paginate($limit);
     }
 
     public function create(array $data): Word
@@ -18,9 +27,6 @@ class WordRepository
 
     public function findByWord(string $word): ?Word
     {
-        return Cache::remember('word_' . $word, now()->addMonth(), function () use ($word) {
-            return $this->model->query()->where('word', $word)->first();
-        });
+        return $this->model->query()->where('word', $word)->first();
     }
-
 }

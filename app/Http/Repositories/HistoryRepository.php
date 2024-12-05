@@ -14,14 +14,8 @@ class HistoryRepository
         return $this->model->create($data);
     }
 
-    public function getAll(?string $searchFilter): Collection
+    public function getAll(int $userId): Collection
     {
-        $query = $this->model->query()
-            ->when(
-                $searchFilter,
-                fn($query) => $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($searchFilter) . '%'])
-            );
-
-        return $query->get();
+        return $this->model->query()->where('user_id', $userId)->get();
     }
 }

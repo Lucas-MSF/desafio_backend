@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\FavoriteController;
+use App\Http\Controllers\Word\GetWordsController;
 use App\Http\Controllers\User\CreateUserController;
 use App\Http\Controllers\Word\SearchWordController;
 
@@ -31,4 +32,5 @@ Route::middleware(['api', 'auth'])->prefix('entries/en')->group(function () {
     Route::post('/{word}/favorite', [FavoriteController::class, 'favorite']);
     Route::delete('/{word}/unfavorite', [FavoriteController::class, 'unfavorite']);
     Route::get('/{word}', SearchWordController::class)->middleware(['save.history.words', 'cache.hit']);
+    Route::get('/', GetWordsController::class)->middleware('cache.hit');
 });
