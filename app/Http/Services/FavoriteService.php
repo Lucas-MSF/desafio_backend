@@ -21,15 +21,15 @@ class FavoriteService
         $wordData = $this->findWordData($word);
         $userData = auth()->user();
 
-        $favoriteData = $this->findDataByUserAndWord($userData->getKey(), $wordData->getKey());
+        $favoriteData = $this->findDataByUserAndWord($userData->id, $wordData->id);
         throw_if(
             !is_null($favoriteData),
             new BadRequestException()
         );
 
         $this->favoriteRepository->create([
-            'word_id' => $wordData->getKey(),
-            'user_id' => $userData->getKey(),
+            'word_id' => $wordData->id,
+            'user_id' => $userData->id,
         ]);
     }
 
