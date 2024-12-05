@@ -16,6 +16,16 @@ class AuthController extends Controller
 {
     public function __construct(private readonly AuthService $service) {}
 
+    /**
+     * Signin
+     *
+     * Endpoint para login na aplicação.
+     * @group Auth
+     * @response 400 {"message": "User or password not send"}
+     * @response 401 {"message": "User and/or password invalid"}
+     * @response 500 {"message": "Internal error, please try again later"}
+     * @responseFile 200 storage/responseApi/Auth/Signin.json
+     */
     public function __invoke(AuthRequest $request): JsonResponse
     {
         try {

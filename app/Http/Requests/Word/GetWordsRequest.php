@@ -18,4 +18,18 @@ class GetWordsRequest extends FormRequest
             'limit' => ['filled', 'integer']
         ];
     }
+
+    public function queryParameters(): array
+    {
+        return [
+            'search' => [
+                'description' => 'Palavra q deseja buscar.',
+                'example'     => 'Fire'
+            ],
+            'limit' => [
+                'description' => 'Define o limite de palavras que vai ser retornado de volta.',
+                'example'     => 5
+            ]
+        ];
+    }
 }

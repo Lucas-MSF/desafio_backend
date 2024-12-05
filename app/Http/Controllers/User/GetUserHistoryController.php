@@ -13,6 +13,14 @@ class GetUserHistoryController extends Controller
 {
     public function __construct(private readonly GetHistoryService $service) {}
 
+    /**
+     * Get History
+     *
+     * Endpoint para listar o historico de palavras pesquisadas.
+     * @group History
+     * @response 500 {"message": "Internal error, please try again later"}
+     * @responseFile 200 storage/responseApi/User/GetHistory.json
+     */
     public function __invoke(): JsonResponse
     {
         try {

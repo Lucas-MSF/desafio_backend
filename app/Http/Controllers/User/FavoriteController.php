@@ -13,10 +13,17 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class FavoriteController extends Controller
 {
-    public function __construct(private readonly FavoriteService $service)
-    {
-    }
+    public function __construct(private readonly FavoriteService $service) {}
 
+    /**
+     * Favorite word
+     *
+     * Endpoint para favoritar uma palavra.
+     * @group Favorite
+     * @response 204
+     * @response 400 {"message": "word already favorite"}
+     * @response 500 {"message": "Internal error, please try again later"}
+     */
     public function favorite(string $word): HttpResponse|JsonResponse
     {
         try {
@@ -35,6 +42,15 @@ class FavoriteController extends Controller
         }
     }
 
+    /**
+     * Unfavorite word
+     *
+     * Endpoint para desfavoritar uma palavra.
+     * @group Favorite
+     * @response 204
+     * @response 400 {"message": "word already unfavorited"}
+     * @response 500 {"message": "Internal error, please try again later"}
+     */
     public function unfavorite(string $word): HttpResponse|JsonResponse
     {
         try {
@@ -53,6 +69,14 @@ class FavoriteController extends Controller
         }
     }
 
+    /**
+     * Get all favorites words
+     *
+     * Endpoint para listar as palavras favoritadas.
+     * @group Favorite
+     * @response 500 {"message": "Internal error, please try again later"}
+     * @responseFile 200 storage/responseApi/User/GetAllFavorites.json
+     */
     public function getFavorites(): JsonResponse
     {
         try {

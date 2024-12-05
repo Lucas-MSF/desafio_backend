@@ -12,10 +12,16 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class SearchWordController extends Controller
 {
-    public function __construct(private readonly SearchWordService $service)
-    {
-    }
+    public function __construct(private readonly SearchWordService $service) {}
 
+    /**
+     * Search Word
+     *
+     * Endpoint para buscar os dados de uma palavra.
+     * @group Words
+     * @response 500 {"message": "Internal error, please try again later"}
+     * @responseFile 200 storage/responseApi/Word/SearchWord.json
+     */
     public function __invoke(string $word): JsonResponse
     {
         try {

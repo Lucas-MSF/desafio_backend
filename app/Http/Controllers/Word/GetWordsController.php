@@ -13,8 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 class GetWordsController extends Controller
 {
     public function __construct(private readonly WordsService $wordsService) {}
+
     /**
-     * Handle the incoming request.
+     * Get Words
+     *
+     * Endpoint para listar as palavras disponiveis.
+     * @group Words
+     * @response 500 {"message": "Internal error, please try again later"}
+     * @responseFile 200 storage/responseApi/Word/GetWords.json
      */
     public function __invoke(GetWordsRequest $request): JsonResponse
     {

@@ -1,0 +1,17 @@
+{
+  "results": [
+    {
+      "word": "test",
+      "added": "2024-12-05 12:41:20"
+    },
+    {
+      "word": "hello",
+      "added": "2024-12-05 12:39:40"
+    }
+  ],
+  "totalDocs": 2,
+  "page": 1,
+  "totalPages": 1,
+  "hasNext": false,
+  "hasPrev": false
+}

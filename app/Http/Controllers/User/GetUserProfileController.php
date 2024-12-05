@@ -13,6 +13,14 @@ class GetUserProfileController extends Controller
 {
     public function __construct(private readonly UserService $service) {}
 
+    /**
+     * Get Profile
+     *
+     * Endpoint para listar os dados do perfil do usuario.
+     * @group User
+     * @response 500 {"message": "Internal error, please try again later"}
+     * @responseFile 200 storage/responseApi/User/GetProfile.json
+     */
     public function __invoke(): JsonResponse
     {
         try {

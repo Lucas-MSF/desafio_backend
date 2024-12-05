@@ -19,4 +19,22 @@ class CreateUserRequest extends FormRequest
             'password' => ['required', 'string'],
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'Nome do Usuario.',
+                'example'     => 'Joao'
+            ],
+            'email' => [
+                'description' => 'E-mail para login.',
+                'example'     => 'joao@email.com'
+            ],
+            'password' => [
+                'description' => 'Senha para login.',
+                'example'     => '********'
+            ]
+        ];
+    }
 }

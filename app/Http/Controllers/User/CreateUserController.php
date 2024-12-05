@@ -19,6 +19,14 @@ class CreateUserController extends Controller
         private readonly UserService $userService
     ) {}
 
+    /**
+     * Create User
+     *
+     * Endpoint para criar usuario na aplicação.
+     * @group User
+     * @response 500 {"message": "Internal error, please try again later"}
+     * @responseFile 200 storage/responseApi/User/CreateUser.json
+     */
     public function __invoke(CreateUserRequest $request): JsonResponse
     {
         try {

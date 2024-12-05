@@ -18,4 +18,18 @@ class AuthRequest extends FormRequest
             'password' => ['required']
         ];
     }
+
+    public function bodyParameters(): array
+    {
+        return [
+            'email' => [
+                'description' => 'E-mail para login.',
+                'example'     => 'joao@email.com'
+            ],
+            'password' => [
+                'description' => 'Senha para login.',
+                'example'     => '********'
+            ]
+        ];
+    }
 }
