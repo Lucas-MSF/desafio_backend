@@ -16,13 +16,11 @@ class CacheHit
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
-        $pathInfo = 'endpoint' . str_replace('/', '_', $request->getPathInfo());
         $uri = str_replace('/', '_', $request->getRequestUri());
-
         $cacheKey = 'request_user_' . auth()->id() . $uri;
-        $status = Cache::tags([$pathInfo])->has($cacheKey) ? 'hit' : 'miss';
-        $response = Cache::tags([$pathInfo])->remember($cacheKey, now()->addMonth(), function () use ($next, $request) {
+
+        $status = Cache::has($cacheKey) ? 'hit' : 'miss';
+        $response = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($next, $request) {
             return $next($request);
         });
         $response->headers->set('x-cache', $status);

@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\FavoriteController;
 use App\Http\Controllers\Word\GetWordsController;
 use App\Http\Controllers\User\CreateUserController;
+use App\Http\Controllers\User\GetUserHistoryController;
+use App\Http\Controllers\User\GetUserProfileController;
 use App\Http\Controllers\Word\SearchWordController;
 
 /*
@@ -33,4 +34,10 @@ Route::middleware(['api', 'auth'])->prefix('entries/en')->group(function () {
     Route::delete('/{word}/unfavorite', [FavoriteController::class, 'unfavorite']);
     Route::get('/{word}', SearchWordController::class)->middleware(['save.history.words', 'cache.hit']);
     Route::get('/', GetWordsController::class)->middleware('cache.hit');
+});
+
+Route::middleware(['api', 'auth', 'cache.hit'])->prefix('user/me')->group(function () {
+    Route::get('/favorite', [FavoriteController::class, 'getFavorites']);
+    Route::get('/history', GetUserHistoryController::class);
+    Route::get('/', GetUserProfileController::class);
 });

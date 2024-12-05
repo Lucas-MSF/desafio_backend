@@ -2,10 +2,11 @@
 
 namespace App\Http\Services;
 
-use App\Http\Repositories\FavoriteRepository;
-use App\Http\Repositories\WordRepository;
-use App\Models\Favorite;
 use App\Models\Word;
+use App\Models\Favorite;
+use App\Helpers\MountDataResponse;
+use App\Http\Repositories\WordRepository;
+use App\Http\Repositories\FavoriteRepository;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class FavoriteService
@@ -54,5 +55,17 @@ class FavoriteService
         );
 
         $favoriteData->delete();
+    }
+
+    public function getAll(int $userId): array
+    {
+        $queryResponse = $this->favoriteRepository->getAll($userId);
+
+        $results = $queryResponse->items();
+        $favorites = collect($results)->map(fn($result) => [
+            'word'  => $result->word->word,
+            'added' => $result->created_at->toDateTimeString(),
+        ])->toArray();
+        return MountDataResponse::mountData($favorites, $queryResponse);
     }
 }

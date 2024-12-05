@@ -1,28 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Word;
+namespace App\Http\Controllers\User;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use App\Http\Services\WordsService;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Word\GetWordsRequest;
+use App\Http\Services\GetHistoryService;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetWordsController extends Controller
+class GetUserHistoryController extends Controller
 {
-    public function __construct(private readonly WordsService $wordsService) {}
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(GetWordsRequest $request): JsonResponse
+    public function __construct(private readonly GetHistoryService $service) {}
+
+    public function __invoke(): JsonResponse
     {
         try {
-            $response = $this->wordsService->getAll($request->validated());
+            $response = $this->service->getAll(auth()->id());
             return response()->json($response, Response::HTTP_OK);
         } catch (Exception $error) {
-            Log::error('GET_WORDS_ERROR', [
+            Log::error('GET_USER_HISTORY_ERROR', [
                 'message' => $error->getMessage(),
                 'file' => $error->getFile(),
                 'line' => $error->getLine(),

@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Favorite;
+use App\Models\History;
 use App\Models\Word;
+use App\Observers\FavoriteObserver;
+use App\Observers\HistoryObserver;
 use App\Observers\WordsObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Word::observe(WordsObserver::class);
+        History::observe(HistoryObserver::class);
+        Favorite::observe(FavoriteObserver::class);
     }
 }

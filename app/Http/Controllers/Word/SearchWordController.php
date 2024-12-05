@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Word;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Services\SearchWordService;
@@ -15,10 +16,11 @@ class SearchWordController extends Controller
     {
     }
 
-    public function __invoke(string $word)
+    public function __invoke(string $word): JsonResponse
     {
         try {
-            return $this->service->search($word);
+            $response = $this->service->search($word);
+            return response()->json($response, Response::HTTP_OK);
         } catch (BadRequestException) {
             return response()->json(['error' => 'word not found!'], Response::HTTP_BAD_REQUEST);
         } catch (Exception $error) {

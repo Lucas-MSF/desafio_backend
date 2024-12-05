@@ -3,7 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\History;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class HistoryRepository
 {
@@ -14,8 +14,11 @@ class HistoryRepository
         return $this->model->create($data);
     }
 
-    public function getAll(int $userId): Collection
+    public function getAll(int $userId): LengthAwarePaginator
     {
-        return $this->model->query()->where('user_id', $userId)->get();
+        return $this->model->query()
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
     }
 }

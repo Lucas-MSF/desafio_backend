@@ -35,7 +35,7 @@ class FavoriteController extends Controller
         }
     }
 
-    public function unfavorite(string $word)
+    public function unfavorite(string $word): HttpResponse|JsonResponse
     {
         try {
             $this->service->unfavorite($word);
@@ -44,6 +44,22 @@ class FavoriteController extends Controller
             return response()->json(['error' => 'word already unfavorited'], Response::HTTP_BAD_REQUEST);
         } catch (Exception $error) {
             Log::error('FAVORITE_ERROR', [
+                'message' => $error->getMessage(),
+                'file' => $error->getFile(),
+                'line' => $error->getLine(),
+                'trace' => $error->getTrace()
+            ]);
+            return response()->json(['error' => 'Internal error, please try again later'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getFavorites(): JsonResponse
+    {
+        try {
+            $response = $this->service->getAll(auth()->id());
+            return response()->json($response, Response::HTTP_OK);
+        } catch (Exception $error) {
+            Log::error('GET_USER_FAVORITES_ERROR', [
                 'message' => $error->getMessage(),
                 'file' => $error->getFile(),
                 'line' => $error->getLine(),

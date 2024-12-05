@@ -16,4 +16,12 @@ class UserService
         return $this->userRepository->create($data);
     }
 
+    public function getUser(int $id): array
+    {
+        $user = $this->userRepository->getById($id);
+        return [
+            'name' => $user->name,
+            'email' => $user->email
+        ];
+    }
 }
